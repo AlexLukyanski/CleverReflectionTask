@@ -1,4 +1,4 @@
-package by.clever;
+package by.clever.reflection;
 
 public class Main {
     public static void main(String[] args) {
