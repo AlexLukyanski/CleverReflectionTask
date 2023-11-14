@@ -1,17 +1,16 @@
 package by.clever.reflection.service;
 
-import by.clever.reflection.entity.MusicBand;
+import by.clever.reflection.dto.MusicBandDTO;
 
-import java.util.Optional;
 import java.util.UUID;
 
 public interface MusicBandService {
 
-    UUID create(MusicBand band);
+    UUID create(MusicBandDTO bandDTO);
 
-    Optional<MusicBand> getByID(UUID id);
+    MusicBandDTO getByID(UUID id);
 
-    void update(MusicBand band);
+    UUID update(MusicBandDTO bandDTO);
 
     void delete(UUID id);
 }

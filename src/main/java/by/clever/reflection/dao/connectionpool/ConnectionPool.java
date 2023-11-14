@@ -1,5 +1,6 @@
 package by.clever.reflection.dao.connectionpool;
 
+
 import java.sql.Array;
 import java.sql.Blob;
 import java.sql.CallableStatement;
@@ -252,7 +253,7 @@ public final class ConnectionPool {
         @Override
         public void close() throws SQLException {
             if (connection.isClosed()) {
-                throw new SQLException("Attempting to close closed connection.");
+                throw new SQLException("Attempting to close closed	connection.");
             }
             if (connection.isReadOnly()) {
                 connection.setReadOnly(false);
@@ -529,5 +530,7 @@ public final class ConnectionPool {
         public void setTypeMap(Map<String, Class<?>> arg0) throws SQLException {
             connection.setTypeMap(arg0);
         }
+
     }
+
 }

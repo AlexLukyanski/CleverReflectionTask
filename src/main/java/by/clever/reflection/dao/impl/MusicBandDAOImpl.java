@@ -19,7 +19,7 @@ import java.util.UUID;
 public class MusicBandDAOImpl implements MusicBandDAO {
 
     private final static String INSERT_NEW_BAND_SQL = "INSERT INTO music_band " +
-            "(gen_random_uuid(),mb_name,mb_genre,ui_patronymic,mb_creationdate,mb_phonenumberr,mb_email) VALUES (?,?,?,?,?,?,?)";
+            "(mb_name,mb_genre,mb_creationdate,mb_phonenumber,mb_email) VALUES (?,?,?,?,?) RETURNING mb_id";
 
     @Override
     public UUID save(MusicBand band) {
@@ -29,19 +29,19 @@ public class MusicBandDAOImpl implements MusicBandDAO {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(INSERT_NEW_BAND_SQL)) {
 
-            preparedStatement.setString(2, band.getName());
-            preparedStatement.setString(3, band.getGenre().toString());
-            preparedStatement.setDate(4, Date.valueOf(band.getCreationDate()));
-            preparedStatement.setString(5, band.getWorkPhoneNumber());
-            preparedStatement.setString(6, band.getWorkEmail());
+            preparedStatement.setString(1, band.getName());
+            preparedStatement.setString(2, band.getGenre().toString());
+            preparedStatement.setDate(3, Date.valueOf(band.getCreationDate()));
+            preparedStatement.setString(4, band.getWorkPhoneNumber());
+            preparedStatement.setString(5, band.getWorkEmail());
 
-            int insertionResult = preparedStatement.executeUpdate();
+            boolean insertionResult = preparedStatement.execute();
 
-            if (insertionResult == 0) {
+            if (!insertionResult) {
                 throw new DAOException("Save music band failed");
             }
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
+            ResultSet resultSet = preparedStatement.getResultSet();
 
             if (resultSet.next()) {
                 id = UUID.fromString(resultSet.getString(1));
@@ -56,7 +56,7 @@ public class MusicBandDAOImpl implements MusicBandDAO {
         }
     }
 
-    private final static String SELECT_BAND_SQL = "SELECT" +
+    private final static String SELECT_BAND_SQL = "SELECT " +
             "mb_id,mb_name,mb_genre,mb_creationdate,mb_phonenumber,mb_email " +
             "FROM music_band WHERE mb_id=? AND mb_isdeleted=false";
 
@@ -68,11 +68,15 @@ public class MusicBandDAOImpl implements MusicBandDAO {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(SELECT_BAND_SQL)) {
 
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            resultSet.next();
 
-            band = setMusicBand(resultSet);
+            if (resultSet.next()) {
+                band = setMusicBand(resultSet);
+            } else {
+                throw new DAOException("Music band not found");
+            }
+
             return band;
 
         } catch (SQLException | ConnectionPoolException e) {
@@ -81,8 +85,8 @@ public class MusicBandDAOImpl implements MusicBandDAO {
     }
 
     private final static String UPDATE_BAND_SQL = "UPDATE music_band SET" +
-            " mb_name=?,mb_genre=?,mb_creationdate=?,mb_phonenumber=?,mb_email=?" +
-            "WHERE mb_id=(SELECT mb_id FROM music_band WHERE mb_email=?)";
+            " mb_name=?,mb_genre=?,mb_creationdate=?,mb_phonenumber=?,mb_email=? " +
+            "WHERE mb_id=?";
 
     @Override
     public UUID update(MusicBand band) {
@@ -92,11 +96,12 @@ public class MusicBandDAOImpl implements MusicBandDAO {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_BAND_SQL)) {
 
-            preparedStatement.setString(2, band.getName());
-            preparedStatement.setString(3, band.getGenre().toString());
-            preparedStatement.setDate(4, Date.valueOf(band.getCreationDate()));
-            preparedStatement.setString(5, band.getWorkPhoneNumber());
-            preparedStatement.setString(6, band.getWorkEmail());
+            preparedStatement.setString(1, band.getName());
+            preparedStatement.setString(2, band.getGenre().toString());
+            preparedStatement.setDate(3, Date.valueOf(band.getCreationDate()));
+            preparedStatement.setString(4, band.getWorkPhoneNumber());
+            preparedStatement.setString(5, band.getWorkEmail());
+            preparedStatement.setObject(6, band.getId());
 
             int insertionResult = preparedStatement.executeUpdate();
 
@@ -104,15 +109,7 @@ public class MusicBandDAOImpl implements MusicBandDAO {
                 throw new DAOException("Update music band failed");
             }
 
-            ResultSet resultSet = preparedStatement.getGeneratedKeys();
-
-            if (resultSet.next()) {
-                id = UUID.fromString(resultSet.getString(1));
-            } else {
-                throw new DAOException("Select UUID failed");
-            }
-
-            return id;
+            return band.getId();
 
         } catch (SQLException | ConnectionPoolException e) {
             throw new DAOException(e);
@@ -127,7 +124,7 @@ public class MusicBandDAOImpl implements MusicBandDAO {
         try (Connection connection = ConnectionPool.getInstance().takeConnection();
              PreparedStatement preparedStatement = connection.prepareStatement(DELETE_BAND_SQL)) {
 
-            preparedStatement.setString(1, id.toString());
+            preparedStatement.setObject(1, id);
             int deletionResult = preparedStatement.executeUpdate();
 
             if (deletionResult == 0) {
