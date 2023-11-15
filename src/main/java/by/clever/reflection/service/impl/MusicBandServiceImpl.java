@@ -1,20 +1,25 @@
 package by.clever.reflection.service.impl;
 
 import by.clever.reflection.dao.MusicBandDAO;
+import by.clever.reflection.dao.proxy.MusicBandDAOProxy;
 import by.clever.reflection.dto.MusicBandDTO;
 import by.clever.reflection.entity.MusicBand;
 import by.clever.reflection.mapper.MusicBandMapper;
+import by.clever.reflection.mapper.MusicBandMapperImpl;
 import by.clever.reflection.service.MusicBandService;
-import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 import java.util.UUID;
 
-@RequiredArgsConstructor
 public class MusicBandServiceImpl implements MusicBandService {
 
-    private final MusicBandDAO musicBandDAO;
     private final MusicBandMapper mapper;
+    private final MusicBandDAO musicBandDAO;
+
+    public MusicBandServiceImpl() {
+        this.mapper = new MusicBandMapperImpl();
+        this.musicBandDAO = MusicBandDAOProxy.getInstance();
+    }
 
     @Override
     public UUID create(MusicBandDTO bandDTO) {
