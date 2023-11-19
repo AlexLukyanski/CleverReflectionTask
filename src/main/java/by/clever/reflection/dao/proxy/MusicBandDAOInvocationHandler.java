@@ -3,7 +3,6 @@ package by.clever.reflection.dao.proxy;
 import by.clever.reflection.dao.MusicBandDAO;
 import by.clever.reflection.dao.cache.Cache;
 import by.clever.reflection.dao.cache.CacheFactory;
-import by.clever.reflection.dao.cache.CacheName;
 import by.clever.reflection.dao.constant.ApplicationYMLParam;
 import by.clever.reflection.entity.MusicBand;
 import org.yaml.snakeyaml.Yaml;
@@ -11,11 +10,13 @@ import org.yaml.snakeyaml.Yaml;
 import java.io.InputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Implementation of InvocationHandler for MusicBandDAO
+ */
 public class MusicBandDAOInvocationHandler implements InvocationHandler {
 
     private final MusicBandDAO musicBandDAO;

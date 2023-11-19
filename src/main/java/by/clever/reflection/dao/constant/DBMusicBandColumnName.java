@@ -1,5 +1,8 @@
 package by.clever.reflection.dao.constant;
 
+/**
+ * Names of MusicBand db columns
+ */
 public final class DBMusicBandColumnName {
 
     private DBMusicBandColumnName() {

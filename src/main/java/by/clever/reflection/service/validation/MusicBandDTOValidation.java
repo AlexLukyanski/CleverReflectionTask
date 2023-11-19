@@ -8,6 +8,9 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Validation class to validate MusicBandDTO in Service layer
+ */
 public final class MusicBandDTOValidation {
 
     private final boolean isIdValid;
@@ -110,7 +113,7 @@ public final class MusicBandDTOValidation {
                 return this;
             }
 
-            String regex = "^(\\+)?(\\d{1,2})?[( .-]*(\\d{3})[) .-]*(\\d{3,4})[ .-]?(\\d{4})$\n";
+            String regex = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$";
             Pattern pattern = Pattern.compile(regex);
             Matcher matcher = pattern.matcher(workPhone);
 

@@ -9,10 +9,15 @@ import by.clever.reflection.mapper.MusicBandMapperImpl;
 import by.clever.reflection.service.MusicBandService;
 import by.clever.reflection.service.exception.ServiceValidationException;
 import by.clever.reflection.service.validation.MusicBandDTOValidation;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Implementation of MusicBandService
+ */
+@RequiredArgsConstructor
 public class MusicBandServiceImpl implements MusicBandService {
 
     private final MusicBandMapper mapper;
@@ -23,6 +28,10 @@ public class MusicBandServiceImpl implements MusicBandService {
         this.musicBandDAO = MusicBandDAOProxy.getInstance();
     }
 
+    /**
+     * @param bandDTO Object that need to be saved
+     * @return UUID of saved object
+     */
     @Override
     public UUID create(MusicBandDTO bandDTO) {
 
@@ -37,6 +46,10 @@ public class MusicBandServiceImpl implements MusicBandService {
         return id;
     }
 
+    /**
+     * @param id Id of object to be retrieved
+     * @return DTO representation of retrieved MusicBand object
+     */
     @Override
     public MusicBandDTO getByID(UUID id) {
 
@@ -49,6 +62,10 @@ public class MusicBandServiceImpl implements MusicBandService {
         return bandDTO;
     }
 
+    /**
+     * @param bandDTO Object that need to be updated
+     * @return UUID of updated object
+     */
     @Override
     public UUID update(MusicBandDTO bandDTO) {
 
@@ -63,6 +80,9 @@ public class MusicBandServiceImpl implements MusicBandService {
         return id;
     }
 
+    /**
+     * @param id Id of the object that need to be deleted
+     */
     @Override
     public void delete(UUID id) {
         if (id == null) {

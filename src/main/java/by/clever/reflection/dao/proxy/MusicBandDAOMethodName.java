@@ -1,5 +1,8 @@
 package by.clever.reflection.dao.proxy;
 
+/**
+ * List of method names in MusicBandDAO
+ */
 public final class MusicBandDAOMethodName {
 
     private MusicBandDAOMethodName() {

@@ -2,6 +2,9 @@ package by.clever.reflection.dao.exception;
 
 import java.io.Serial;
 
+/**
+ * Exception class to be thrown in DAO
+ */
 public class DAOException extends RuntimeException {
 
     @Serial

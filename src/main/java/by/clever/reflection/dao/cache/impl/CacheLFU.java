@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -14,6 +13,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+
+/**
+ * LFU implementation of cash
+ *
+ * @param <K> - key for the cache
+ * @param <V> - value for the cache
+ */
 public class CacheLFU<K, V> implements Cache<K, V> {
 
     private Node<K, V> head;
@@ -29,6 +35,10 @@ public class CacheLFU<K, V> implements Cache<K, V> {
         this.map = new ConcurrentHashMap<K, Node<K, V>>();
     }
 
+    /**
+     * @param key   Given key for the cache
+     * @param value Given value for the cache
+     */
     @Override
     public void put(K key, V value) {
 
@@ -56,6 +66,10 @@ public class CacheLFU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * @param key Given key to value in the cache
+     * @return Optional of value in the cache
+     */
     @Override
     public Optional<V> get(K key) {
 
@@ -78,6 +92,9 @@ public class CacheLFU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * @param key Key of the value in cash that need to be removed
+     */
     @Override
     public void remove(K key) {
 
@@ -91,6 +108,9 @@ public class CacheLFU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * Clear cash
+     */
     @Override
     public void clear() {
 

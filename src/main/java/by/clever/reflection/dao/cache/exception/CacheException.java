@@ -2,6 +2,9 @@ package by.clever.reflection.dao.cache.exception;
 
 import java.io.Serial;
 
+/**
+ * Exception class for work with cashes
+ */
 public class CacheException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 5139757603430711247L;

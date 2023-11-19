@@ -2,6 +2,9 @@ package by.clever.reflection.service.exception;
 
 import java.io.Serial;
 
+/**
+ * Exception to be thrown through validation in Service layer
+ */
 public class ServiceValidationException extends RuntimeException {
     @Serial
     private static final long serialVersionUID = 1066757603430758825L;

@@ -5,6 +5,9 @@ import by.clever.reflection.dao.impl.MusicBandDAOImpl;
 
 import java.lang.reflect.Proxy;
 
+/**
+ * Proxy for MusicBandDAO
+ */
 public class MusicBandDAOProxy {
 
     private MusicBandDAOProxy() {

@@ -12,6 +12,13 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
+
+/**
+ * LRU implementation of cash
+ *
+ * @param <K> - key for the cache
+ * @param <V> - value for the cache
+ */
 public class CacheLRU<K, V> implements Cache<K, V> {
 
     private Queue<K> queue = new ConcurrentLinkedQueue<K>();
@@ -25,6 +32,10 @@ public class CacheLRU<K, V> implements Cache<K, V> {
         this.capacity = capacity;
     }
 
+    /**
+     * @param key   Given key for the cache
+     * @param value Given value for the cache
+     */
     @Override
     public void put(K key, V value) {
 
@@ -45,6 +56,10 @@ public class CacheLRU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * @param key Given key to value in the cache
+     * @return Optional of value in the cache
+     */
     @Override
     public Optional<V> get(K key) {
 
@@ -66,6 +81,9 @@ public class CacheLRU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * @param key Key of the value in cash that need to be removed
+     */
     @Override
     public void remove(K key) {
 
@@ -83,6 +101,9 @@ public class CacheLRU<K, V> implements Cache<K, V> {
         }
     }
 
+    /**
+     * Clear cash
+     */
     @Override
     public void clear() {
 
