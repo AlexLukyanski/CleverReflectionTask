@@ -21,7 +21,7 @@ ConnctionPool кастомный и его реализация находитс
 Singleton;  
 Builder (не Lombok,кастомный на валидации);  
 Factory;  
-Protection Proxy;
+Protection Proxy;  
 В данной таске при реализации печати в PDF реализован:  
 Decorator.  
 
