@@ -18,9 +18,11 @@ ConnctionPool кастомный и его реализация находитс
 # UPDATE
 # CleverPatternsTask
 В дополнение к уже реализованным паттернам на предыдущей таске:  
-- Singleton;  
-- Builder (не Lombok,кастомный на валидации);  
-- Factory;  
-- Protection Proxy;  
-В данной таске при реализации печати в PDF реализован Decorator.  
+Singleton;  
+Builder (не Lombok,кастомный на валидации);  
+Factory;  
+Protection Proxy;
+В данной таске при реализации печати в PDF реализован:  
+Decorator.  
+
 Также новые методы сервисов покрыты unit-тестами. 
