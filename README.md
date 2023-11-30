@@ -22,6 +22,7 @@ Singleton;
 Builder (не Lombok,кастомный на валидации);  
 Factory;  
 Protection Proxy;  
+
 В данной таске при реализации печати в PDF реализован:  
 Decorator.  
 
